@@ -41,10 +41,14 @@
       <div id="mainBody">
         <div class="animate-bottom" id="vid_player">
           <div class="video_player" id="videoPlayer">
-            <video width="100%" controls autoplay muted loop  id="myVideo">
+            <video width="100%" controls autoplay muted loop  id="myVideo" load="lazy">
               <source src=" " type="video/mp4">
             </video>
             <img src="assets/img/close.png" class="close-btn" onClick="stopVideo()">
+            <div class="vid_body">
+              <h4>Short film </h4>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas aperiam, inventore ipsa illum officia asperiores suscipit. Quia, nulla. Dolor illo dolorem quibusdam eum eaque dolores veniam. Ut quo enim quod!</p>
+            </div>
           </div>
         </div>
         <div id="videoList">
@@ -65,28 +69,21 @@
               <div class="small">
                 <img src="assets/img/shortScript_480p.png" class="image_feat" load="lazy" alt="Malaba Empire"/>
                 <img src="assets/img/play.png" class="play-btn" alt="Malaba Empire" onclick="playVideo('assets/video/shortScript_480p.mp4')" id="assets/video/one4.mp4"/>
-                <p>Short Video CLip</p>
+                <p>Steve Harvey and Son </p>
               </div>
             </div>
             <div class="video_image">
               <div class="small">
                 <img src="assets/img/StoryFilm_480p.png" class="image_feat" load="lazy" alt="Malaba Empire"/>
                 <img src="assets/img/play.png" class="play-btn" alt="Malaba Empire" onclick="playVideo('assets/video/StoryFilm_480p.mp4')" id="assets/video/one3.mp4"/>
-                <p>Its less than 5mb </p>
-              </div>
-            </div>
-            <div class="video_image">
-              <div class="small">
-                <img src="assets/img/allan2.png" class="image_feat" load="lazy" alt="Malaba Empire"/>
-                <img src="assets/img/play.png" class="play-btn" alt="Malaba Empire" onclick="playVideo('assets/video/one2.mp4')" id="assets/video/one4.mp4"/>
-                <p>I love animations, do you? </p>
+                <p>Steve Harvey and Son </p>
               </div>
             </div>
             <div class="video_image">
               <div class="small">
                 <img src="assets/img/beanPhotosMinute_360p.png" class="image_feat" load="lazy" alt="Malaba Empire"/>
                 <img src="assets/img/play.png" class="play-btn" alt="Malaba Empire" onclick="playVideo('assets/video/beanPhotosMinute_360p.mp4')" id="assets/video/one4.mp4"/>
-                <p>Quick Fox jumped over the lazy Dog </p>
+                <p>Steve Harvey and Son </p>
               </div>
             </div>
           </div>
@@ -109,18 +106,18 @@
     var video_image = document.getElementById("videoList");
     var bodyc = document.getElementById("bodyc");
     function playVideo(file) {
-      myVideo.src = file;
-      $(videoPlayer).show(500);
-      $(video_image).hide(200);
-      // videoPlayer.style.display = "block";
-      // video_image.style.display = "none";
+       myVideo.src = file;
+      // $(videoPlayer).show(500);
+      // $(video_image).hide(200);
+       videoPlayer.style.display = "block";
+       video_image.style.display = "none";
     }
     function stopVideo(){
       myVideo.src = "";
-      $(videoPlayer).hide(100);
-      $(video_image).show(200);
-      // videoPlayer.style.display = "none";
-      // video_image.style.display = "block";
+      // $(videoPlayer).hide(100);
+      // $(video_image).show(200);
+       videoPlayer.style.display = "none";
+       video_image.style.display = "block";
     }
   </Script>
 </body>
