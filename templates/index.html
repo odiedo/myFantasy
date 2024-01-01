@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/font-awesome/css/font-awesome.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}">
+  <script type="text/javascript" src="{{ url_for('static', filename='assets/js/jquery/jquery-3.3.1.min.js') }}"></script>
+  <title>myFantasy</title>
+</head>
+<body onload="myFun()" id="bodyc">
+  <div id="wrap">
+    <div id="sideNav">
+      <div class="sideNav1">
+        <div class="logo">
+          <img src="{{ url_for('static', filename='assets/img/a1.jpg') }}" alt="user-profile">
+        </div>
+        <p><span>Odiedo</span></p>
+        <hr>
+        <ul>
+          <li class="sideTit"><i class="fa fa-windows" aria-hidden="true"></i> Categories</li>
+          <ul class="sideTitle">
+            <li onclick="window.location.href='{{ url_for('index') }}';"><i class="fa fa-home" aria-hidden="true"></i> <span>Home</span></li>
+            <li onclick="window.location.href='#';"><i class="fa fa-map" aria-hidden="true"></i> <span>Places</span></li>
+            <li onclick="window.location.href='#';"><i class="fa fa-viadeo-square" aria-hidden="true"></i> <span>Stories</span></li>
+            <li><i class="fa fa-star-o" aria-hidden="true"></i> <span>Favorite</span></li>
+          </ul>
+        </ul>
+        <hr>
+        <div class="min">
+          <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+    <main id="whole">
+      <div id="mainBody">
+        <div class="animate-bottom" id="vid_player">
+          <div class="video_player" id="videoPlayer">    
+            <video width="100%" controls autoplay muted loop  id="myVideo" load="lazy" oncontextmenu="return false;">
+              <source src=" " type="video/mp4">
+            </video>
+            <img src="{{ url_for('static', filename='assets/img/close.png')}}" class="close-btn" onClick="stopVideo()">
+            <div class="vid_body">
+              <h4 id="videoTitle"> </h4>
+              <p id="videoDesc"> </p>
+            </div>
+            <button onclick="playNextVideo()">Next Video</button>
+          </div>
+        </div>
+        <div id="upload_vid">
+          <form action="/vid_upload" method="post" enctype="multipart/form-data">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+        
+            <label for="desc">Your Story:</label>
+            <textarea  rows="5" cols="50" placeholder="Write from your heart!" name="desc" required></textarea>
+            <div class="ups">
+              <div class="upsOne">
+                <label for="video">Video:</label>
+                <div class="input_cover"><input type="file" class="video_up" name="video" accept="video/*" required> <span>Upload Video</span> </div>
+              </div>
+              <!-- <div class="upsOne">
+                <label for="image">Images:</label>
+                <div class="input_cover"><input type="file" id="image" name="image" accept="image/*" required> <span>Upload cover Photo</span></div>
+              </div> -->        
+            </div>
+            <div class="submit">
+              <input type="submit" value="Upload">
+            </div>
+          </form>
+        </div>
+        <div id="videoList">
+          <div class="list">
+            <ul>
+              <li class="Home">Home://</li>
+              <li>videos </li>
+            </ul>
+            <form action="" method="post" id="search">
+              <div class="search">
+                <input type="text" placeholder="Search here...">
+                <i class="fa fa-search"></i>
+              </div>
+            </form>
+          </div>
+          <div id="videoList1"> 
+              {% for v in videos %}
+              <div class="video_image">
+                  <div class="small">
+                    <img src="../static/assets/uploads/{{ v.v_image }}" class="image_feat" alt="{{ v.title }}">
+                    <img src="{{ url_for('static', filename='assets/img/play.png') }}" class="play-btn" alt="{{ v.title }}" onclick="playVideo('../static/assets/uploads/{{ v.video }}', '{{ v.title }}', '{{ v.desc}}')" id="{{ v.video }}"/>
+                    <p id="{{ v.title }}">{{ v.title }}</p>
+                  </div>
+              </div>
+              {% endfor %}
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <div id="videoHeader">
+    <div class="vidTitle">
+      <h2> myFantasy </h2>
+      <a href="#" onclick="upload_video();" id="up_open"><i class="fa fa-plus-circle" aria-hidden="true"></i><br><span style="font-size: 10px;">upload</span> </a>
+      <a href="#" onclick="upload_video_close();" id="up_close"><i class="fa fa-times-circle" aria-hidden="true"></i><br><span style="font-size: 10px;">close</span></a>
+    </div>
+  </div>
+
+
+
+  <div id="viewMore">
+    <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+  </div>
+  <script>
+    var videoPlayer = document.getElementById("videoPlayer");
+    var myVideo = document.getElementById("myVideo");
+    var video_image = document.getElementById("videoList");
+    var bodyc = document.getElementById("bodyc");
+    var upload_vid = document.getElementById("upload_vid");
+    var up_open = document.getElementById("up_open");
+    var up_close = document.getElementById("up_close");
+    var videoTitle = document.getElementById("videoTitle");
+    var videoDesc = document.getElementById("videoDesc");
+
+
+    var videos = [
+    {% for v in videos %}
+        {
+            title: '{{ v.title }}',
+            file: '{{ url_for('static', filename='assets/uploads/' + v.video) }}'
+        },
+    {% endfor %}
+    ];
+
+    var currentVideoIndex = 0;
+
+    function playVideo(file, title, desc) {
+      myVideo.src = file;
+      // $(videoPlayer).show(500);
+      // $(video_image).hide(200);
+      videoPlayer.style.display = "block";
+      video_image.style.display = "none";
+      videoTitle.innerHTML = title;
+      videoDesc.innerHTML = desc;
+    }
+    function stopVideo(){
+      myVideo.src = "";
+      // $(videoPlayer).hide(100);
+      // $(video_image).show(200);
+      videoPlayer.style.display = "none";
+      video_image.style.display = "block";
+      if (videoTitle.innerHTML.trim() !== "") {
+        videoTitle.innerHTML = "";
+      }
+      if (videoDesc.innerHTML.trim() !== "") {
+        videoDesc.innerHTML = "";
+      }
+    }
+    function upload_video() {
+      upload_vid.style.display = "block";
+      up_open.style.display = "none";
+      up_close.style.display = "block";
+      videoPlayer.style.display = "none";
+      video_image.style.display = "none";
+    }
+    function upload_video_close() {
+      video_image.style.display = "block";
+      upload_vid.style.display = "none";
+      up_open.style.display = "block";
+      up_close.style.display = "none";
+    }
+    function playNextVideo() {
+      currentVideoIndex = (currentVideoIndex + 1) % videos.length;
+      var nextVideo = videos[currentVideoIndex];
+      playVideo(nextVideo.file, nextVideo.title);
+    }
+  </script>
+</body>
+</html>
