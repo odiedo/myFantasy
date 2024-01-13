@@ -30,4 +30,4 @@ You are free to use, modify, and distribute myFantasy Web app for your own proje
 
 ## Contact
 
-For any questions, feedback, or assistance, please reach out to our team at odiedopaul@gmail.com.
+For any questions, feedback, or assistance, please reach out to me at odiedopaul@gmail.com.
